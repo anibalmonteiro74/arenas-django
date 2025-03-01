@@ -7,3 +7,4 @@ __pycache__/
 staticfiles/
 logs/
 .env
+datos_arenas.dump
