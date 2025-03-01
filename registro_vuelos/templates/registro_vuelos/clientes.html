@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Clientes</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Deuda en Moneda</th>
+            <th>Deuda en Gramos</th>
+            <th>Total Generado en Moneda</th>
+            <th>Total Generado en Gramos</th>
+            <th>Historial de Transacciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.deuda_total }}</td>
+            <td>{{ cliente.deuda_gramos_oro }}</td>
+            <td>{{ cliente.total_generado_dolares }}</td>
+            <td>{{ cliente.total_generado_gramos }}</td>
+            <td>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#historial-{{ cliente.id }}">
+                    Ver Historial
+                </button>
+            </td>
+        </tr>
+        <tr class="collapse" id="historial-{{ cliente.id }}">
+            <td colspan="6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Monto</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaccion in cliente.transacciones %}
+                        <tr>
+                            <td>{{ transaccion.fecha }}</td>
+                            <td>{{ transaccion.tipo }}</td>
+                            <td>{{ transaccion.monto }}</td>
+                            <td>{{ transaccion.descripcion }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Sin transacciones</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#abonoModal">
+    Registrar Abono
+</button>
+
+<!-- Modal para registrar abono -->
+<div class="modal fade" id="abonoModal" tabindex="-1" aria-labelledby="abonoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="abonoModalLabel">Registrar Abono</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'registrar_abono' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="cliente" class="form-label">Cliente</label>
+                        <select name="cliente" id="cliente" class="form-select">
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo_abono" class="form-label">Tipo de Abono</label>
+                        <select name="tipo_abono" id="tipo_abono" class="form-select">
+                            <option value="moneda">Moneda</option>
+                            <option value="gramos">Gramos</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Monto</label>
+                        <input type="number" step="0.01" min="0.01" name="monto" id="monto" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tasa_conversion" class="form-label">Tasa de Conversión (solo para moneda)</label>
+                        <input type="number" step="0.01" min="0.01" name="tasa_conversion" id="tasa_conversion" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

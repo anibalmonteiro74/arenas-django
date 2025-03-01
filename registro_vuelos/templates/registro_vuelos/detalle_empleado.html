@@ -1,0 +1,161 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Detalle de Empleado: {{ empleado.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Detalle del Empleado</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>{{ empleado.nombre }} ({{ empleado.get_tipo_display }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Información General</h4>
+                    <p><strong>Fecha de ingreso:</strong> {{ empleado.fecha_ingreso }}</p>
+                    <p><strong>Estado:</strong> {% if empleado.activo %}Activo{% else %}Inactivo{% endif %}</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Resumen de Horas</h4>
+                    <p><strong>Horas por hora:</strong> {{ empleado.horas_por_hora }}</p>
+                    <p><strong>Horas por destino:</strong> {{ empleado.horas_por_destino }}</p>
+                    <p><strong>Horas por colaboración:</strong> {{ empleado.horas_colaboracion }}</p>
+                    <p><strong>Total de horas:</strong> {{ empleado.horas_totales }}</p>
+                    <p><strong>Costo acumulado por destino:</strong> ${{ empleado.total_costo_por_destino }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if saldo %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Saldo Pendiente</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Horas Pendientes</h4>
+                    <p><strong>Por hora:</strong> {{ saldo.horas_pendientes_por_hora }}</p>
+                    <p><strong>Por destino:</strong> {{ saldo.horas_pendientes_por_destino }}</p>
+                    <p><strong>Por colaboración:</strong> {{ saldo.horas_pendientes_colaboracion }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Costos Pendientes</h4>
+                    <p><strong>Por destino:</strong> ${{ saldo.costo_pendiente_por_destino }}</p>
+                </div>
+            </div>
+            <div class="mt-3">
+                <a href="{% url 'registrar_pago' empleado.id %}" class="btn btn-primary">Registrar Pago</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Historial de Pagos</h3>
+        </div>
+        <div class="card-body">
+            {% if pagos %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Horas</th>
+                        <th>Tarifa</th>
+                        <th>Monto</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pago in pagos %}
+                    <tr>
+                        <td>{{ pago.fecha_pago }}</td>
+                        <td>{{ pago.get_tipo_pago_display }}</td>
+                        <td>{{ pago.horas_pagadas }}</td>
+                        <td>${{ pago.tarifa_por_hora }}</td>
+                        <td>${{ pago.monto_pagado }}</td>
+                        <td>{{ pago.descripcion|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No hay pagos registrados.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Historial de Vuelos</h3>
+        </div>
+        <div class="card-body">
+            <h4>Como Piloto ({{ vuelos_piloto.count }})</h4>
+            {% if vuelos_piloto %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Avión</th>
+                        <th>Tipo de Cobro</th>
+                        <th>Horas</th>
+                        <th>Bitácora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vuelo in vuelos_piloto %}
+                    <tr>
+                        <td>{{ vuelo.fecha }}</td>
+                        <td>{{ vuelo.avion }}</td>
+                        <td>{{ vuelo.get_tipo_cobro_display }}</td>
+                        <td>{{ vuelo.horas_totales }}</td>
+                        <td>{{ vuelo.bitacora }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No hay vuelos como piloto.</p>
+            {% endif %}
+            
+            <h4>Como Copiloto ({{ vuelos_copiloto.count }})</h4>
+            {% if vuelos_copiloto %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Avión</th>
+                        <th>Tipo de Cobro</th>
+                        <th>Horas</th>
+                        <th>Bitácora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vuelo in vuelos_copiloto %}
+                    <tr>
+                        <td>{{ vuelo.fecha }}</td>
+                        <td>{{ vuelo.avion }}</td>
+                        <td>{{ vuelo.get_tipo_cobro_display }}</td>
+                        <td>{{ vuelo.horas_totales }}</td>
+                        <td>{{ vuelo.bitacora }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No hay vuelos como copiloto.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="mb-4">
+        <a href="{% url 'admin:registro_vuelos_empleado_changelist' %}" class="btn btn-secondary">Volver a la lista</a>
+    </div>
+</div>
+{% endblock %}

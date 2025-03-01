@@ -1,0 +1,93 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Registrar Pago: {{ empleado.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Registrar Pago para {{ empleado.nombre }}</h2>
+    
+    {% if saldo %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Resumen de Saldo</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Horas Pendientes</h4>
+                    <p><strong>Por hora:</strong> {{ saldo.horas_pendientes_por_hora }}</p>
+                    <p><strong>Por destino:</strong> {{ saldo.horas_pendientes_por_destino }}</p>
+                    <p><strong>Por colaboración:</strong> {{ saldo.horas_pendientes_colaboracion }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Costos Pendientes</h4>
+                    <p><strong>Por destino:</strong> ${{ saldo.costo_pendiente_por_destino }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="card">
+        <div class="card-header">
+            <h3>Formulario de Pago</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="form-group mb-3">
+                    <label for="id_tipo_pago">Tipo de Pago:</label>
+                    {{ form.tipo_pago }}
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="id_horas_a_pagar">Horas a Pagar:</label>
+                    {{ form.horas_a_pagar }}
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="id_tarifa_por_hora">Tarifa por Hora (USD):</label>
+                    {{ form.tarifa_por_hora }}
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="id_descripcion">Descripción:</label>
+                    {{ form.descripcion }}
+                </div>
+                
+                <div class="form-group mb-3">
+                    <button type="button" id="calcular-monto" class="btn btn-info">Calcular Monto</button>
+                    <span id="monto-calculado" class="ml-3"></span>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Registrar Pago</button>
+                    <a href="{% url 'detalle_empleado' empleado.id %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('calcular-monto').addEventListener('click', function() {
+        const horas = parseFloat(document.getElementById('id_horas_a_pagar').value) || 0;
+        const tarifa = parseFloat(document.getElementById('id_tarifa_por_hora').value) || 0;
+        const monto = horas * tarifa;
+        
+        document.getElementById('monto-calculado').textContent = 'Monto Total: $' + monto.toFixed(2);
+    });
+</script>
+{% endblock %}

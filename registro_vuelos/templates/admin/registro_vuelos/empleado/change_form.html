@@ -1,0 +1,15 @@
+
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    {% if original.pk %}
+    <li>
+        <a href="{% url 'registrar_pago' original.pk %}" class="historylink">Registrar Pago</a>
+    </li>
+    <li>
+        <a href="{% url 'detalle_empleado' original.pk %}" class="viewsitelink">Ver Historial de Pagos</a>
+    </li>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Ficha del Cliente</h2>
+<p>Nombre del Cliente: {{ cliente.nombre }}</p>
+<p>Deuda Total en Moneda: {{ cliente.deuda_total }}</p>
+<p>Deuda Total en Gramos de Oro: {{ cliente.deuda_gramos_oro }}</p>
+<p>Total Generado Dólares: {{ cliente.total_generado_dolares }}</p>
+<p>Total Generado Gramos de Oro: {{ cliente.total_generado_gramos }}</p>
+
+<h2>Historial de Transacciones</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Monto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaccion in transacciones %}
+        <tr>
+            <td>{{ transaccion.fecha }}</td>
+            <td>{{ transaccion.get_tipo_display }}</td>
+            <td>{{ transaccion.monto }}</td>
+            <td>{{ transaccion.descripcion }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="/admin/registro_vuelos/cliente/{{ cliente.id }}/change/" target="_blank">Ver Detalle del Cliente</a>
+{% endblock %}

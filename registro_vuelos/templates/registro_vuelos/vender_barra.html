@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Vender Barra: {{ barra.codigo }}</h1>
+<p><strong>Peso:</strong> {{ barra.peso }} g</p>
+<p><strong>Gramos puros:</strong> {{ barra.gramos_puros }} g</p>
+<p><strong>¿Vendida?:</strong> {{ barra.vendida }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Vender</button>
+</form>
+<a href="{% url 'inventario_list' %}">Volver al Inventario</a>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="/static/admin/js/tramo_vuelo_validaciones.js"></script>
+    <script>
+        console.log("✅ Script insertado desde base_site.html");
+    </script>
+{% endblock %}

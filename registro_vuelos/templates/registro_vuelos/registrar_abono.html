@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Registrar Abono</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.cliente.label_tag }}
+        {{ form.cliente }}
+        <small class="form-text text-muted">{{ form.cliente.help_text }}</small>
+    </div>
+    <div class="mb-3">
+        {{ form.tipo_abono.label_tag }}
+        {{ form.tipo_abono }}
+        <small class="form-text text-muted">{{ form.tipo_abono.help_text }}</small>
+    </div>
+    <div class="mb-3">
+        {{ form.monto.label_tag }}
+        {{ form.monto }}
+        <small class="form-text text-muted">{{ form.monto.help_text }}</small>
+    </div>
+    <div class="mb-3">
+        {{ form.tasa_conversion.label_tag }}
+        {{ form.tasa_conversion }}
+        <small class="form-text text-muted">{{ form.tasa_conversion.help_text }}</small>
+    </div>
+    <div class="mb-3">
+        {{ form.caja_chica.label_tag }}
+        {{ form.caja_chica }}
+        <small class="form-text text-muted">{{ form.caja_chica.help_text }}</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar</button>
+</form>
+{% endblock %}
