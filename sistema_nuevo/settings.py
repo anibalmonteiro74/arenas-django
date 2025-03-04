@@ -1,3 +1,8 @@
+
+
+
+
+
 import sys
 import codecs
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
@@ -102,6 +107,7 @@ if IS_RENDER:
             'PORT': os.environ.get('DB_PORT', '5432'),
         }
     }
+    ALLOWED_HOSTS = os.environ.get("ALLOWED_HOTSTS", "sistema_arenas.onrender.com").split(",")
 else:
     # Configuración para local (usando localhost o tu base local)
     DATABASES = {
@@ -114,7 +120,7 @@ else:
             'PORT': '5432',
         }
     }
-
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Password validation
