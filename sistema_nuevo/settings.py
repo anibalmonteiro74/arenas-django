@@ -87,16 +87,33 @@ WSGI_APPLICATION = 'sistema_nuevo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'arenas',  # Usa el nombre de la base de datos en minúsculas
-        'USER': 'vuelo_admin',
-        'PASSWORD': 'HCAviones*1705',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+# Detecta si estamos en Render o localmente
+IS_RENDER = os.environ.get('IS_RENDER', 'False').lower() == 'true'
+
+if IS_RENDER:
+    # Configuración para Render (usando variables de entorno)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME', 'arenas'),
+            'USER': os.environ.get('DB_USER', 'vuelo_admin'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'foAE0tjSDPGtNpoAW24UGis6caUmxmcm'),
+            'HOST': os.environ.get('DB_HOST', 'dpg-cv3lcqlsvqrc73ec8tpg-a'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+        }
     }
-}
+else:
+    # Configuración para local (usando localhost o tu base local)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'arenas',
+            'USER': 'vuelo_admin',
+            'PASSWORD': 'HCAviones*1705',  # O tu contraseña local
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
 
 
 
