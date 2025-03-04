@@ -107,7 +107,7 @@ if IS_RENDER:
             'PORT': os.environ.get('DB_PORT', '5432'),
         }
     }
-    ALLOWED_HOSTS = os.environ.get("ALLOWED_HOTSTS", "sistema_arenas.onrender.com").split(",")
+    ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "sistema-arenas.onrender.com").split(",")
 else:
     # Configuración para local (usando localhost o tu base local)
     DATABASES = {
