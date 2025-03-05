@@ -11,6 +11,7 @@ django-admin-tools==0.9.3
 django-extensions==3.2.3
 django-jazzmin==3.0.1
 graphviz==0.20.3
+gunicorn==23.0.0
 iniconfig==2.0.0
 isort==6.0.0
 Jinja2==3.1.5
