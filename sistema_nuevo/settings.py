@@ -58,8 +58,13 @@ INSTALLED_APPS = [
     'registro_vuelos',
 ]
 
+# Detecta si estamos en Render o localmente
+IS_RENDER = os.environ.get('IS_RENDER', 'False').lower() == 'true'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Aquí se inserta whitenoise solo en producción
+    'whitenoise.middleware.WhiteNoiseMiddleware' if IS_RENDER else None,
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,6 +72,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Eliminar posibles valores `None` en la lista (por si IS_RENDER es False)
+MIDDLEWARE = [m for m in MIDDLEWARE if m is not None]
+
+# Configuración para servir archivos estáticos en producción
+if IS_RENDER:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = 'sistema_nuevo.urls'
 
@@ -92,8 +104,6 @@ WSGI_APPLICATION = 'sistema_nuevo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Detecta si estamos en Render o localmente
-IS_RENDER = os.environ.get('IS_RENDER', 'False').lower() == 'true'
 
 if IS_RENDER:
     # Configuración para Render (usando variables de entorno)
@@ -167,9 +177,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Agregar la ubicación de archivos estáticos personalizados
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'registro_vuelos', 'static'),
-]
+if not IS_RENDER:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'registro_vuelos', 'static'),
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
