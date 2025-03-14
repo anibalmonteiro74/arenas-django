@@ -1,0 +1,47 @@
+[33mcommit 91d6b5c124682afd5138675a7bc424db6fb4ed02[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Tue Mar 4 21:26:20 2025 +0000
+
+    Configuré DATABASES en settings.py para usar variables de entorno y adicione nueva fila de resgitro_vuelos
+
+[33mcommit f22cde4d5d53449649ef6338ef779fa4aaca95a1[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Tue Mar 4 21:02:33 2025 +0000
+
+    Actualicé requirements.txt: corregi django-jazzmin>=3.0.1
+
+[33mcommit 59b6b28fd950be5dc6ede4e6cd480dc410bf2c00[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Tue Mar 4 20:05:11 2025 +0000
+
+    Actualicé requirements.txt: corregi jazzmin para Render
+
+[33mcommit f2fc4c60a8e634f392aac9eaf4f77b8cd1e40c68[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Mon Mar 3 14:29:36 2025 +0000
+
+    Aseguré requirements.txt para compatibilidad con Render
+
+[33mcommit dd2d9a9735157cadfb25fb9b1179ee6c19d21898[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Sat Mar 1 16:26:01 2025 +0000
+
+    Actualicé .gitignore para excluir datos_arenas.dump u otros archivos
+
+[33mcommit ff982ff649374e8a51c9f1302dcab6a0a37d2133[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Sat Mar 1 16:19:42 2025 +0000
+
+    Corregi requirements.txt: cambié jazzmin==2.6.0 por jazzmin>=2.6.0
+
+[33mcommit 9184dbbda52fb88f39c289a9b112926dc6e0eac4[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Sat Mar 1 15:11:20 2025 +0000
+
+    Actualicé requirements.txt y runtime.txt para Render
+
+[33mcommit 934fd15c0927a86c2fe870c34cc44550d431b3cd[m
+Author: Anibal Alberto Monteiro Ramos <anibalmonteiro@gmail.com>
+Date:   Sat Mar 1 13:31:57 2025 +0000
+
+    Proyecto inicial para render

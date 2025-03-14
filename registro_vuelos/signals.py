@@ -124,13 +124,12 @@ def manejar_vuelo_creado(sender, instance, created, **kwargs):
         inventario.gramos_disponibles_polvo = inventario.gramos_disponibles_polvo or Decimal(0)
         inventario.gramos_por_cobrar_polvo = inventario.gramos_por_cobrar_polvo or Decimal(0)
 
-        # Obtener la primera serie de facturación disponible
-        serie = SerieFactura.objects.first()
-        if not serie:
-            raise ValueError("No existe ninguna serie configurada. Crea una serie en el sistema.")
-
-        # Generar el número de factura
-        numero_factura_vuelo = serie.generar_numero_factura()
+        # Usar la serie de factura seleccionada en el vuelo
+        if not instance.serie_factura:
+            raise ValueError("No se especificó una serie de factura para el vuelo.")
+        
+        # Generar el número de factura usando la serie seleccionada
+        numero_factura_vuelo = instance.serie_factura.generar_numero_factura()
         instance.numero_factura = f"{numero_factura_vuelo}-0"
         instance.save()
 
